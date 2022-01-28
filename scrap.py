@@ -1,7 +1,3 @@
-# https://www.latelierdesbieres.fr/12-achat-bieres-en-ligne?page=
-# https://www.achat-bieres.com/
-# https://www.bieres.com/10-bieres
-
 import requests
 from bs4 import BeautifulSoup
 
@@ -9,7 +5,6 @@ import re
 import json
 
 latelierdesbieres = "https://www.latelierdesbieres.fr/12-achat-bieres-en-ligne?page="
-
 
 fileBeers = open("beers.json", "w", encoding="utf-8")
 fileBreweries = open("breweries.json", "w", encoding="utf-8")
