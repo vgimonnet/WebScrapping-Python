@@ -6,9 +6,7 @@ import json
 
 latelierdesbieres = "https://www.latelierdesbieres.fr/12-achat-bieres-en-ligne?page="
 
-fileBeers = open("beers.json", "w", encoding="utf-8")
-fileBreweries = open("breweries.json", "w", encoding="utf-8")
-fileStyles = open("styles.json", "w", encoding="utf-8")
+dbFile = open("db.json", "w", encoding="utf-8")
 
 beers = []
 breweries = []
@@ -16,7 +14,7 @@ styles = []
 arrayStyles = []
 beerLinkCounter = 0
 
-for counter in range (1,2, 1):
+for counter in range (1,40, 1):
   page = requests.get(f'https://www.bieres.com/10-bieres?page={counter}')
   pageContent = BeautifulSoup(page.content, "html.parser")
   beerLinks = pageContent.find_all("a", class_="product_name")
@@ -29,6 +27,12 @@ for counter in range (1,2, 1):
     jsonStyle = {} 
     jsonBrewery = {} 
     rowCounter = 0
+
+    # Set ids of object
+    beerLinkCounter += 1
+    jsonBeer['id'] = beerLinkCounter
+    jsonStyle['id'] = beerLinkCounter
+    jsonBeer['id'] = beerLinkCounter
 
     # Beer and style
     jsonBeer['name'] = beerPageContent.find("h1").text
@@ -61,19 +65,10 @@ for counter in range (1,2, 1):
         
       jsonBrewery['description'] = breweryDescription
     
-    beerLinkCounter += 1
-    jsonBeer['id'] = beerLinkCounter
-    jsonStyle['id'] = beerLinkCounter
-    jsonBeer['id'] = beerLinkCounter
-    
     beers.append(jsonBeer)
     breweries.append(jsonBrewery)
     styles.append(jsonStyle)
 
-json.dump(beers, fileBeers)
-json.dump(breweries, fileBreweries)
-json.dump(styles, fileStyles)
+json.dump({ "beers": beers, "breweries": breweries, "styles": styles  }, dbFile)
 
-fileBeers.close
-fileBreweries.close
-fileStyles.close
+dbFile.close
