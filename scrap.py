@@ -60,7 +60,8 @@ for counter in range (1,2, 1):
         breweryDescription += breweryDescriptionItem.text
         
       jsonBrewery['description'] = breweryDescription
-      
+    
+    beerLinkCounter += 1
     jsonBeer['id'] = beerLinkCounter
     jsonStyle['id'] = beerLinkCounter
     jsonBeer['id'] = beerLinkCounter
