@@ -14,6 +14,7 @@ beers = []
 breweries = []
 styles = []
 arrayStyles = []
+beerLinkCounter = 0
 
 for counter in range (1,2, 1):
   page = requests.get(f'https://www.bieres.com/10-bieres?page={counter}')
@@ -59,6 +60,10 @@ for counter in range (1,2, 1):
         breweryDescription += breweryDescriptionItem.text
         
       jsonBrewery['description'] = breweryDescription
+      
+    jsonBeer['id'] = beerLinkCounter
+    jsonStyle['id'] = beerLinkCounter
+    jsonBeer['id'] = beerLinkCounter
     
     beers.append(jsonBeer)
     breweries.append(jsonBrewery)
