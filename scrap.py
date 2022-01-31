@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import re
 import json
 
-latelierdesbieres = "https://www.latelierdesbieres.fr/12-achat-bieres-en-ligne?page="
+# latelierdesbieres = "https://www.latelierdesbieres.fr/12-achat-bieres-en-ligne?page="
 
 dbFile = open("db.json", "w", encoding="utf-8")
 
@@ -12,7 +12,6 @@ beers = []
 breweries = []
 styles = []
 arrayStyles = []
-beerLinkCounter = 0
 
 for counter in range (1,40, 1):
   page = requests.get(f'https://www.bieres.com/10-bieres?page={counter}')
@@ -28,12 +27,6 @@ for counter in range (1,40, 1):
     jsonBrewery = {} 
     rowCounter = 0
 
-    # Set ids of object
-    beerLinkCounter += 1
-    jsonBeer['id'] = beerLinkCounter
-    jsonStyle['id'] = beerLinkCounter
-    jsonBeer['id'] = beerLinkCounter
-
     # Beer and style
     jsonBeer['name'] = beerPageContent.find("h1").text
     beerDescription = ''
@@ -47,13 +40,13 @@ for counter in range (1,40, 1):
         jsonBeer["ibu"] = beerDataRowValues[rowCounter].text
       elif beerDataRowKey.text == "Pays":
         jsonBeer["country"] = jsonBrewery["country"] = beerDataRowValues[rowCounter].text
-      elif beerDataRowKey.text == "Degrés d'alcool":
+      elif beerDataRowKey.text == "Degrés Alcool":
         jsonBeer["abv"] = beerDataRowValues[rowCounter].text
       elif beerDataRowKey.text == "Robe" or beerDataRowKey.text == "Arômes" or beerDataRowKey.text == "Goûts":
         beerDescription += beerDataRowValues[rowCounter].text + "/n"
       rowCounter += 1
     
-    jsonBeer['description'] = beerDescription
+    jsonBeer['desc'] = beerDescription
 
     # Brewery
     breweryInfos = beerPageContent.find("div", class_="manufacturer_description")
@@ -63,7 +56,7 @@ for counter in range (1,40, 1):
       for breweryDescriptionItem in breweryInfos.find_all("p"):
         breweryDescription += breweryDescriptionItem.text
         
-      jsonBrewery['description'] = breweryDescription
+      jsonBrewery['desc'] = breweryDescription
     
     beers.append(jsonBeer)
     breweries.append(jsonBrewery)
